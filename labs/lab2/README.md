@@ -1,11 +1,25 @@
-# Lab 2 
-https://github.com/adaltas/ece-webtech-2023-fall/blob/master/modules/02.nodejs/lab.md
+# Lab2: getting started with Node.js & Git
 
-##
-1./explains how /hello works (containing the links)
+## Installation
+
+```bash
+npm install
+```
+Then:
+```bash
+npm run start
+```
+Developer mode: 
+```bash
+npm run dev
+```
+### Usage
+1. / explains how /hello works
 
 2. /hello takes a name query parameter and random names reply hello [name]
 
 3. your own name replies with a short intro of yourself
 
-4. Any other path replies a 404 code with a not found message
+4. /about and test shows the about.json content
+
+5. Any other path replies a 404 code with a not found message if there is no json matching the name
