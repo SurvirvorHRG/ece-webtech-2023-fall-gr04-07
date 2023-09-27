@@ -1,4 +1,3 @@
-// ./index.js
 // Import modules
 const http = require('http')
 const handles = require('./handles')
