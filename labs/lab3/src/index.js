@@ -1,5 +1,6 @@
 const express = require('express')
 const userHandles = require('./routes/handles')
+const articleHandles = require('./routes/articles')
 const bodyParser = require('body-parser')
 
 const app = express()
@@ -15,9 +16,10 @@ app.use(bodyParser.urlencoded({
 }))
 app.use(bodyParser.json())
 
-//app.get('/', (req, res) => res.send('Hello World!'))
-
+app.use('/articles', articleHandles)
 app.use('/', userHandles)
+
+
 
 const server = app.listen(port, (err) => {
   if (err) throw err
