@@ -1,25 +1,35 @@
 # Lab2: getting started with Node.js & Git
 
+A simple web server written in Node.js.
+
 ## Installation
 
-```bash
-npm install
+Install application:
+
 ```
-Then:
-```bash
-npm run start
+npm install 
 ```
-Developer mode: 
-```bash
+
+## Usage
+
+Start a web server with the command:
+
+```
+npm start
+```
+
+It will start a web server available in your browser at http://localhost:8080.
+
+## Develop
+
+Start a web server with the command:
+
+```
 npm run dev
 ```
-### Usage
-1. / explains how /hello works
 
-2. /hello takes a name query parameter and random names reply hello [name]
+It will start a web server available in your browser at http://localhost:8080.
 
-3. your own name replies with a short intro of yourself
+## Authors
 
-4. /about and test shows the about.json content
-
-5. Any other path replies a 404 code with a not found message if there is no json matching the name
+Sergei Kudinov
