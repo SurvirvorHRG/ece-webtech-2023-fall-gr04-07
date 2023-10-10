@@ -32,4 +32,4 @@ It will start a web server available in your browser at http://localhost:8080.
 
 ## Authors
 
-Sergei Kudinov
+CELANIE Erwan
