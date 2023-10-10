@@ -1,11 +1,25 @@
-# ece-webtech-2023-fall-gr04-07
+# Lab2: getting started with Node.js & Git
 
-Repositories for the labs in the Web Technologies course.
+## Installation
 
-##
+```bash
+npm install
+```
+Then:
+```bash
+npm run start
+```
+Developer mode: 
+```bash
+npm run dev
+```
+### Usage
+1. / explains how /hello works
 
-25/09/2023- Lab 2 completed: https://github.com/SurvirvorHRG/ece-webtech-2023-fall-gr04-07/tree/master/labs/lab2
+2. /hello takes a name query parameter and random names reply hello [name]
 
-## Authors
+3. your own name replies with a short intro of yourself
 
-CELANIE Erwan - LASCARD Yohan
+4. /about and test shows the about.json content
+
+5. Any other path replies a 404 code with a not found message if there is no json matching the name
