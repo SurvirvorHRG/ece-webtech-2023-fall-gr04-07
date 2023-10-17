@@ -7,7 +7,8 @@ const Articles = () => {
   return (
     <div>
       <Header />
-      <h1>Articles</h1>
+      <h1 className="wt-title">Articles</h1>
+      <p className = "italic font-bold">This is the articles page</p>
       <ul>
         <li>
           <Link href="/articles/[articleId]" as="/articles/1">

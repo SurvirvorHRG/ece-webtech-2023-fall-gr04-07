@@ -6,7 +6,7 @@ const About = () => {
   return (
     <div>
       <Header />
-      <h1>About Us</h1>
+      <h1 className="wt-title">About Us</h1>
       {/* Content for the about page */}
       <Footer />
     </div>

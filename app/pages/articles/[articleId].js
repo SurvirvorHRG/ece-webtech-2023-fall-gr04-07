@@ -9,7 +9,7 @@ const Article = () => {
   return (
     <div>
       <Header />
-      <h1>Article {articleId}</h1>
+      <h1 className="wt-title">Article {articleId}</h1>
       {/* Fetch and display content for the specific article based on articleId */}
       {/* Dummy data for demonstration */}
       <p>This is the content of Article {articleId}.</p>
