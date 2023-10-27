@@ -1,9 +1,15 @@
-# Lab4: getting started with React and Next.js
+# Lab6: data fetching and rendering with Next.js
 
-Using React together with Next.js gives you building blocks to create web applications fast. Since this lab, we start working on a skeleton of your course project, a blogging website.
+In Next.js, using the appropriate data fetching strategy is key. Its impacts include:
+
+- The performances of your page generation
+- The deployment method
+- The geographical distribution of your data with a CDN
+- Page security, expositing publicly or not some particular URLs
+- User experience
+- Search Engine Optimisation (SEO)
 
 ## Objectives
 
-- Next.js application initialization
-- Build a website skeleton for blogging
-- Build dynamic routes
+- Understanding the various fetching strategies
+- Practicing React and Next.js
