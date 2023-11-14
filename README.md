@@ -1,15 +1,17 @@
-# Lab6: data fetching and rendering with Next.js
+# Lab8: install and use Supabase
 
-In Next.js, using the appropriate data fetching strategy is key. Its impacts include:
-
-- The performances of your page generation
-- The deployment method
-- The geographical distribution of your data with a CDN
-- Page security, expositing publicly or not some particular URLs
-- User experience
-- Search Engine Optimisation (SEO)
+The Supabase platform helps developers in the creation of modern apps. Its core services include database, authentication, file storage, and auto-generated APIs.
 
 ## Objectives
 
-- Understanding the various fetching strategies
-- Practicing React and Next.js
+- Supabase installation and integration
+- PostgreSQL and row-level security
+
+## Tasks
+
+1. Supabase installation (medium level)
+2. Create a `contacts` table (easy level)
+3. Next.js integration (easy level)
+4. Fetch data from Supabase (easy level)
+5. Insert data into Supabase (medium level)
+6. Row-level security (medium level)

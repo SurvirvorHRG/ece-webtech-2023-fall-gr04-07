@@ -1,7 +1,14 @@
-import React from 'react';
 
-const Footer = () => {
-  return <footer className=" flex flex-1 py-8 px-0 bg-white text-black justify-center items-center text-center">&copy; 2023 My Blog. All rights reserved.</footer>;
-};
-
-export default Footer;
+export default function Footer(){
+  return (
+    <footer className="bg-slate-200 px-10 py-2 text-center [&_svg]:inline-block">
+      <a
+        href="https://www.adaltas.com"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Powered by Adaltas
+      </a>
+    </footer>
+  )
+}

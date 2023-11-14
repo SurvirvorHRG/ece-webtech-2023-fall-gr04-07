@@ -1,20 +1,29 @@
-import React, { useState } from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import {useState} from 'react'
+import Layout from '../components/Layout'
 
-
-export default function countState() {
-  // Declare a new state variable, which we'll call "count"
-  const [count, setCount] = useState(0);
-
+export default function Page() {
+  const [count, setCount] = useState(0)
+  const onIncrement = function(e){
+    setCount(count + 1)
+  }
   return (
-    <div>
-      <Header />
-      <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>
-        Click me
-      </button>
-      <Footer />
-    </div>
-  );
+    <Layout>
+      <div>
+        <h1 className='wt-title'>
+          Use state
+        </h1>
+        <div>
+          {count}
+        </div>
+        <div>
+          <button
+            className="bg-slate-500 hover:bg-blue-500 text-white px-3 py-2 rounded"
+            onClick={onIncrement}
+          >
+            Click me
+          </button>
+        </div>
+      </div>
+    </Layout>
+  )
 }

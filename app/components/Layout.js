@@ -1,4 +1,3 @@
-
 import Head from 'next/head'
 import Header from '../components/Header.js'
 import Footer from '../components/Footer.js'
@@ -11,12 +10,12 @@ export default function Layout({
   return (
     <>
       <Head>
-        <title>Webtech - {title}</title>
+        <title>{`Webtech ${title && `- ${title}`}`}</title>
         <meta name="description" content={description} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
-        <Header />
+        <Header/>
         <main className="py-10 min-h-screen max-w-full md:max-w-2xl md:mx-auto">
           {children}
         </main>
