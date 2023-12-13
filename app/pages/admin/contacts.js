@@ -2,17 +2,17 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { ChevronRightIcon } from '@heroicons/react/20/solid'
 import Layout from '../../components/Layout.js'
-// import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
 
 export default function Contacts() {
   const [contacts, setContacts] = useState([])
-  // const supabase = useSupabaseClient()
+  const supabase = useSupabaseClient()
   useEffect(() => {
     (async () => {
-      // let { data, error, status } = await supabase
-      //   .from('contacts')
-      //   .select(`id, firstname, lastname, email`)
-      //   setContacts(data)
+      let { data, error, status } = await supabase
+        .from('contacts')
+        .select(`id, firstname, lastname, email`)
+        setContacts(data)
     })()
   }, [])
   return (
@@ -49,10 +49,8 @@ export default function Contacts() {
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{contact.lastname}</td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{contact.email}</td>
                     <td>
-                      <Link href={`/admin/contacts/${contact.id}`}>
-                        <a className={"w-5 h-5 block bg-slate-200 hover:bg-blue-500 hover:text-white rounded-full"}>
-                          <ChevronRightIcon className="h-5 w-5 " aria-hidden="true" />
-                        </a>
+                      <Link href={`/admin/contacts/${contact.id}`} className={"w-5 h-5 block bg-slate-200 hover:bg-blue-500 hover:text-white rounded-full"}>
+                        <ChevronRightIcon className="h-5 w-5 " aria-hidden="true" />
                       </Link>
                     </td>
                   </tr>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-// import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import md from 'markdown-it'
 import Layout from '../../../components/Layout.js'
 
@@ -7,11 +7,15 @@ export default function Contacts({
   id
 }) {
   const [contact, setContact] = useState(null)
-  // const supabase = useSupabaseClient()
+  const supabase = useSupabaseClient()
   useEffect(() => {
     (async () => {
-      // Fetch the record matching the `id` property
-      // and apply its value with `setContact`.
+      let { data, error, status } = await supabase
+      .from('contacts')
+      .select(`id, firstname, lastname, email,message`)
+      .eq('id',id)
+      .single()
+      setContact(data)
     })()
   }, [id])
   return (

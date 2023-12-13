@@ -7,8 +7,20 @@ export default function Page() {
   const [message, setMessage] = useState(null)
   const onSubmit = async function(e){
     e.preventDefault()
-    // Insert contact record into the contacts database
-    // Print a friendly confirmation message
+    const data = new FormData(e.target)
+    const { error } = await supabase
+      .from('contacts')
+      .insert(Object.fromEntries(data), { returning: 'minimal' })
+    if(error){
+      setMessage('Sorry, an unexpected error occured.')
+    }else{
+      setMessage(
+        <div>
+          <h2 className="text-center mt-3">Confirmation</h2>
+          <p>Thank you for contacting us. We will get back to you promptly.</p>
+        </div>
+      )
+    }
   }
   return (
     <Layout

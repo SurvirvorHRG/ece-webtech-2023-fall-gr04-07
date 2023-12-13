@@ -1,5 +1,4 @@
-volumes/db/data
-volumes/storage
+# Supabase
+.branches
+.temp
 .env
-test.http
-docker-compose.override.yml
