@@ -1,13 +1,13 @@
 import { useRouter } from 'next/router'
-import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react'
+import { useContext } from 'react';
+import UserContext from '../components/UserContext'
 import Layout from '../components/Layout.js'
 
 export default function Page() {
   const router = useRouter()
-  const supabase = useSupabaseClient()
-  const user = useUser()
-  const onClickLogout = async () => {
-    await supabase.auth.signOut()
+  const { user, logout } = useContext(UserContext)
+  const onClickLogout = () => {
+    logout()
     router.push('/login')
   }
   return (

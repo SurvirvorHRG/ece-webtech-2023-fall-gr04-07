@@ -1,4 +1,5 @@
 import {createContext, useState, useEffect} from 'react'
+import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react'
 
 const Context = createContext()
 
@@ -7,29 +8,20 @@ export default Context
 export const ContextProvider = ({
   children
 }) => {
-  const [profile, setProfile] = useState(null)
-  const fetchData = async () => {
-    const response = await fetch('/api/profile')
-    return await response.json()
-  }
-  useEffect(() => {
-    const fetchProfile = async () => {
-      const profile = await fetchData()
-      setProfile(profile)
-    }
-    fetchProfile()
-  }, [])
-  
+  const supabase = useSupabaseClient()
+  const supabaseUser = useUser()
+  const [user, setUser] = useState()
+  useEffect(function () {
+    if (supabaseUser) setUser(supabaseUser)
+  }, [supabaseUser])
+
   return (
     <Context.Provider
       value={{
-        profile: profile,
-        login: async () => {
-          const profile = await fetchData()
-          setProfile(profile)
-        },
-        logout: () => {
-          setProfile(null)
+        user: user,
+        logout: async () => {
+          await supabase.auth.signOut()
+          setUser(null)
         }
       }}
     >
