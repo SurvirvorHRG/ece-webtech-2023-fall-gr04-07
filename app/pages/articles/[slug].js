@@ -20,8 +20,9 @@ export default function Page({
 }
 
 export async function getStaticProps(ctx) {
-  const response = await fetch(`http://localhost:3000/api/articles/${ctx.params.slug}`)
-  const article = await response.json()
+  // const response = await fetch(`http://localhost:3000/api/articles/${ctx.params.slug}`)
+  // const article = await response.json()
+  const article = {}
   return {
     props: {
       article: article
@@ -30,8 +31,9 @@ export async function getStaticProps(ctx) {
 }
 
 export async function getStaticPaths(ctx) {
-  const response = await fetch(`http://localhost:3000/api/articles`)
-  const articles = await response.json()
+  // const response = await fetch(`http://localhost:3000/api/articles`)
+  // const articles = await response.json()
+  const articles = []
   return {
     paths: articles.map( article => `/articles/${article.slug}`),
     fallback: false
