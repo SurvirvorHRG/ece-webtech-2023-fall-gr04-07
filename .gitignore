@@ -1,5 +1,4 @@
 node_modules
 package-lock.json
-package.json
-ece-webtech-2023-fall-gr04-07.code-workspace
-
+.env
+.env.local

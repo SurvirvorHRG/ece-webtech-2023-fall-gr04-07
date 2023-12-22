@@ -11,10 +11,10 @@ export default function Contacts({
   useEffect(() => {
     (async () => {
       let { data, error, status } = await supabase
-      .from('contacts')
-      .select(`id, firstname, lastname, email,message`)
-      .eq('id',id)
-      .single()
+        .from('contacts')
+        .select(`firstname, lastname, email, message`)
+        .eq('id', id)
+        .single()
       setContact(data)
     })()
   }, [id])
