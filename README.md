@@ -5,7 +5,7 @@
 
 ## Deliverables 
 
-- Vercel URL: *https://ece-webtech-2023-fall-gr04-07-hccxh6l1l.vercel.app/*
+- Vercel URL: *https://ece-webtech-2023-fall-gr04-07.vercel.app/*
 - Supabase project URL: *https://vdtyfskrdjugcgkeuvqy.supabase.co*
 
 ## Authors
