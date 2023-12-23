@@ -16,9 +16,9 @@ export default function Page() {
       <div className="min-h-screen ">
         <Featured />
         <CategoryList />
-        <div className="">
+        <div className="flex gap-[50px]">
           <CardList />
-          <Menu />
+          <Menu/>
         </div>
       </div>
     </Layout>

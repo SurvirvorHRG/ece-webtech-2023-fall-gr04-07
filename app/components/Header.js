@@ -3,45 +3,41 @@ import Image from 'next/image'
 import OutlineUserCircleIcon from '@heroicons/react/24/outline/UserCircleIcon'
 import { useContext } from 'react'
 import UserContext from './UserContext'
-import ThemeToggle from "./ThemeToggle.js"
+import ThemeToggle from "./Theme/ThemeToggle.js"
 
 export default function Header() {
   const { user, login, logout } = useContext(UserContext)
-  
+  const links = "flex items-end gap-12 flex-1 text-xl"
   return (
     <header>
-      <div className="flex items-center justify-between h-16"> 
-        <div className="flex gap-5 flex-1">
+      <div className="border-2 flex items-center justify-between h-[100px]"> 
+        <div className="flex gap-2.5 flex-1">
           <Image src="/facebook.png" alt="facebook" width={24} height={24} />
           <Image src="/instagram.png" alt="instagram" width={24} height={24} />
           <Image src="/tiktok.png" alt="tiktok" width={24} height={24} />
           <Image src="/youtube.png" alt="youtube" width={24} height={24} />
         </div>
-        <div className="flex-1 text-center text-4xl font-bold"><Link href = "/">WebTechApp</Link></div>  
-        <div className="flex text-center gap-10 flex-1 text-xl">
+        <div className="flex-1 text-center text-4xl font-[bold]"><Link href = "/">WebTechApp</Link></div>  
+        <div className={links}>
           <ThemeToggle />
-          <Link href="/articles" className="flex text-center gap-10 flex-1 text-xl">Articles</Link>
-          <Link href="/about" className="flex text-center gap-10 flex-1 text-xl">About</Link>
-          <Link href="/contacts" className="flex text-center gap-10 flex-1 text-xl">Contact</Link> 
-          <div className="flex text-center gap-10 flex-1 text-xl">
+          <Link href="/articles">Articles</Link>
+          <Link href="/about" >About</Link>
+          <Link href="/contacts">Contacts</Link> 
             {user && (
-              <Link href="/profile" className="flex gap-2 items-center"> 
+              <Link href="/profile"> 
                 {user.username}
                 <OutlineUserCircleIcon className="h-6 w-6" /> 
               </Link>
             )}
-          </div>
-          <div className="flex text-center gap-10 flex-1 text-xl">
             {user ? (
-              <button onClick={() => logout()} className="flex gap-2 items-center">
+              <button onClick={() => logout()} >
                 Sign out
               </button>
             ) : (
-              <button onClick={() => login()} className="flex gap-2 items-center">
+              <button onClick={() => login()} >
                 Sign in
               </button>
             )}
-          </div>
         </div>
       </div>
     </header>

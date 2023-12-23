@@ -2,11 +2,57 @@
 @tailwind components;
 @tailwind utilities;
 
-/* wt stands for Web Tech */
 
-.wt-title {
-  @apply text-3xl font-bold underline mb-10;
+
+* {
+  @apply box-border m-0 p-0;
 }
+
+body {
+  @apply max-w-[100vw] overflow-x-hidden;
+}
+a {
+  @apply text-inherit no-underline;
+}
+
+.container {
+  @apply min-h-screen bg-[color:var(--bg)] text-[color:var(--textColor)];
+}
+
+.wrapper {
+  @apply max-w-screen-2xl mx-auto px-20;
+}
+
+@media screen and (max-width: 1536px) {
+  .wrapper {
+    @apply max-w-[1366px];
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .wrapper {
+    @apply max-w-screen-lg;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .wrapper {
+    @apply max-w-screen-md px-10;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .wrapper {
+    @apply max-w-screen-sm;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .wrapper {
+    @apply max-w-[475px];
+  }
+}
+
 
 .ql-container{
   font-size: 10px;

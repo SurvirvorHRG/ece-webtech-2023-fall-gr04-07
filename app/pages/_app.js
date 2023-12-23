@@ -3,8 +3,8 @@ import { SessionContextProvider } from '@supabase/auth-helpers-react'
 import { useState } from 'react'
 import '@/styles/globals.css'
 import { ContextProvider } from '../components/UserContext'
-import { ThemeContextProvider } from '../components/ThemeContext'
-import ThemeProvider from '../components/ThemeProvider'
+import { ThemeContextProvider } from '../components/Theme/ThemeContext'
+import ThemeProvider from '../components/Theme/ThemeProvider'
 
 export default function App({ Component, pageProps }) {
   // Create a new supabase browser client on every first render.

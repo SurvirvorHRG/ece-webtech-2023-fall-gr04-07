@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useContext } from "react";
-import UserContext from './UserContext'
 import { ThemeContext } from './ThemeContext';
 
 export default function ThemeToggle() {
