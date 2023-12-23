@@ -1,6 +1,6 @@
 "use client"
 import Image from "next/image"
-import { useState,useEffect } from "react"
+import { useState,useMemo } from "react"
 import "react-quill/dist/quill.bubble.css"
 import styles from "./writePage.module.css"
 import dynamic from 'next/dynamic'
