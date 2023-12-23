@@ -7,3 +7,11 @@
 .wt-title {
   @apply text-3xl font-bold underline mb-10;
 }
+
+.ql-container{
+  font-size: 10px;
+}
+
+.quill > .ql-container > .ql-editor.ql-blank::before{
+  color: #b3b3b1;
+}
