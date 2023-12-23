@@ -1,18 +1,16 @@
 "use client"
 import Image from "next/image"
-import { useState } from "react"
+import { useState,useEffect } from "react"
 import "react-quill/dist/quill.bubble.css"
 import styles from "./writePage.module.css"
 import dynamic from 'next/dynamic'
 import Layout from '../components/Layout.js'
 
-const ReactQuill = dynamic(import('react-quill'), { ssr: false })
 
 export default function WriteArticle() {
+    const ReactQuill = useMemo(() => dynamic(() => import('react-quill'), { ssr: false }),[]);
     const [open, setOpen] = useState(false)
     const [value, setValue] = useState(false)
-
-
 
     return (
         <Layout>
