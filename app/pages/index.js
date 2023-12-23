@@ -6,8 +6,22 @@ import Featured from '../components/featured/Featured.js'
 import CategoryList from '../components/categoryList/CategoryList.js'
 import CardList from "../components/cardList/CardList.js";
 import Menu from "../components/Menu/Menu.js";
+import { createPagesServerClient } from '@supabase/auth-helpers-nextjs'
 
-export default function Page() {
+
+export const getServerSideProps = async (ctx) => {
+  // Create authenticated Supabase Client
+  const supabase = createPagesServerClient(ctx)
+  // Run queries with RLS on the server
+  const { data } = await supabase.from('Post').select('*',{ count: 'exact' })
+  return {
+    props: {
+      data: data ?? [],
+    },
+  }
+}
+
+export default function Page(props) {
   return (
     <Layout
       title=""
@@ -17,7 +31,7 @@ export default function Page() {
         <Featured />
         <CategoryList />
         <div className="flex gap-[50px]">
-          <CardList />
+          <CardList {...props}/>
           <Menu/>
         </div>
       </div>
