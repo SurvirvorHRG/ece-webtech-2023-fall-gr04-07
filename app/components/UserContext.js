@@ -13,6 +13,7 @@ export const ContextProvider = ({
   const supabaseUser = useUser()
   const [user, setUser] = useState()
   const router = useRouter()
+
   useEffect(function () {
     if (supabaseUser) setUser(supabaseUser)
   }, [supabaseUser])
@@ -28,7 +29,7 @@ export const ContextProvider = ({
           await supabase.auth.signOut()
           //setUser(null)
           router.reload()
-        }
+        },
       }}
     >
       {children}
