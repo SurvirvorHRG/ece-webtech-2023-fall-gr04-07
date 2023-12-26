@@ -1,23 +1,25 @@
 import Link from 'next/link'
 import Layout from '../components/Layout.js'
-import { useContext } from 'react';
-import UserContext from '../components/UserContext'
 import Featured from '../components/featured/Featured.js'
 import CategoryList from '../components/categoryList/CategoryList.js'
 import CardList from "../components/cardList/CardList.js";
 import Menu from "../components/Menu/Menu.js";
-import { createPagesServerClient } from '@supabase/auth-helpers-nextjs'
 
 
 export const getServerSideProps = async (ctx) => {
-  const response_cat = await fetch(`https://ece-webtech-2023-fall-gr04-07.vercel.app/api/categories`)
-  const response_posts = await fetch(`https://ece-webtech-2023-fall-gr04-07.vercel.app/api/posts`)
-  const posts = await response_posts.json()
+  const page = parseInt(ctx.query.page) || 1
+  const cat = ctx.query.cat || ""
+  const response_cat = await fetch(`https://ece-webtech-2023-fall-gr04-07.vercel.app/categories`)
+  const response_articles = await fetch(`https://ece-webtech-2023-fall-gr04-07.vercel.app/api/articles?page=${page}&cat=${cat}`)
+  const articles = await response_articles.json()
   const categories = await response_cat.json()
+
   return {
     props: {
-      posts: posts,
-      categories: categories
+      articles: articles,
+      categories: categories,
+      page: page,
+      cat: cat
     }
   }
 }

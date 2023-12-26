@@ -5,9 +5,9 @@ import Link from "next/link";
 const Card = ({ key, item }) => {
   return (
     <div className={styles.container} key={key}>
-      {item.img && (
+      {item.image && (
         <div className={styles.imageContainer}>
-          <Image src={item.img} alt="" fill className={styles.image} />
+          <Image src={item.image} alt="" fill className={styles.image} />
         </div>
       )}
       <div className={styles.textContainer}>

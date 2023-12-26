@@ -7,7 +7,7 @@ import ThemeToggle from "./Theme/ThemeToggle.js"
 
 export default function Header() {
   const { user, login, logout } = useContext(UserContext)
-  const links = "flex items-end gap-12 flex-1 text-xl"
+  const links = "flex items-end gap-7 flex-1 text-xl"
   return (
     <header>
       <div className="border-2 flex items-center justify-between h-[100px]"> 
@@ -24,10 +24,15 @@ export default function Header() {
           <Link href="/about" >About</Link>
           <Link href="/contacts">Contacts</Link> 
             {user && (
+              <div className= "flex gap-2.5">
               <Link href="/profile"> 
                 {user.username}
                 <OutlineUserCircleIcon className="h-6 w-6" /> 
               </Link>
+              <Link href="/writeArticle">
+                Write
+              </Link>
+              </div>
             )}
             {user ? (
               <button onClick={() => logout()} >
