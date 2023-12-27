@@ -10,7 +10,7 @@ export const getServerSideProps = async (ctx) => {
   const page = parseInt(ctx.query.page) || 1
   const cat = ctx.query.cat || ""
   const response_cat = await fetch(`https://ece-webtech-2023-fall-gr04-07.vercel.app/api/categories`)
-  const response_articles = await fetch(`https://ece-webtech-2023-fall-gr04-07.vercel.app/articles?page=${page}&cat=${cat}`)
+  const response_articles = await fetch(`https://ece-webtech-2023-fall-gr04-07.vercel.app/api/articles?page=${page}&cat=${cat}`)
   const articles = await response_articles.json()
   const categories = await response_cat.json()
 
