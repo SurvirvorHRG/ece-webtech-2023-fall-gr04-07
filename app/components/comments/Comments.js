@@ -3,46 +3,45 @@
 import Link from "next/link";
 import styles from "./comments.module.css";
 import Image from "next/image";
-//import useSWR from "swr";
-//import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 
-const fetcher = async (url) => {
-  const res = await fetch(url);
 
-  const data = await res.json();
 
-  if (!res.ok) {
-    const error = new Error(data.message);
-    throw error;
-  }
+const Comments = ({ articleSlug }) => {
+  const [data, setData] = useState(null)
+  const [isLoading, setLoading] = useState(true)
+  const supabase = useSupabaseClient()
+  const [message, setMessage] = useState(null)
+  const user = useUser()
+  const router = useRouter()
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(`https://ece-webtech-2023-fall-gr04-07.vercel.app/api/comments?articleSlug=${articleSlug}`)
+      const comments = await response.json()
+      setData(comments)
+      setLoading(false)
+    })()
+  }, [supabase])
 
-  return data;
-};
 
-const Comments = ({ postSlug }) => {
-  return ("")
-  /*const { status } = useSession();
 
-  const { data, mutate, isLoading } = useSWR(
-    `http://localhost:3000/api/comments?postSlug=${postSlug}`,
-    fetcher
-  );
 
   const [desc, setDesc] = useState("");
 
   const handleSubmit = async () => {
     await fetch("/api/comments", {
       method: "POST",
-      body: JSON.stringify({ desc, postSlug }),
+      body: JSON.stringify({ desc, articleSlug }),
     });
-    mutate();
+    router.reload()
   };
 
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Comments</h1>
-      {status === "authenticated" ? (
+      {user ? (
         <div className={styles.write}>
           <textarea
             placeholder="write a comment..."
@@ -81,7 +80,7 @@ const Comments = ({ postSlug }) => {
             ))}
       </div>
     </div>
-  );*/
+  );
 };
 
 export default Comments;

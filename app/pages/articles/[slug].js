@@ -1,5 +1,4 @@
 import Layout from '../../components/Layout.js'
-
 import Menu from "@/components/Menu/Menu";
 import styles from "./singlePage.module.css";
 import Image from "next/image";
@@ -7,12 +6,13 @@ import Comments from "../../components/comments/Comments.js";
 
 export const getServerSideProps = async (ctx) => {
 
-  const response = await fetch(`https://ece-webtech-2023-fall-gr04-07.vercel.app/${ctx.params.slug}`)
+  const response = await fetch(`https://ece-webtech-2023-fall-gr04-07.vercel.app/api/articles/${ctx.params.slug}`)
   const slug = await response.json()
 
   return {
     props: {
-      data: slug
+      data: slug,
+      articleSlug: ctx.params.slug
     }
   }
 }
@@ -20,8 +20,13 @@ export const getServerSideProps = async (ctx) => {
 const SinglePage = (props) => {
 
   const data = props.data;
+  const slug = props.articleSlug
 
   return (
+    <Layout
+    title="Article"
+    description="Single article"
+    >
     <div className={styles.container}>
       <div className={styles.infoContainer}>
         <div className={styles.textContainer}>
@@ -33,7 +38,7 @@ const SinglePage = (props) => {
               </div>
             )}
             <div className={styles.userTextContainer}>
-              <span className={styles.username}>{/*data?.user.name*/}</span>
+              <span className={styles.username}>{data?.user.name}</span>
               <span className={styles.date}>{data.created_at}</span>
             </div>
           </div>
@@ -50,10 +55,14 @@ const SinglePage = (props) => {
             className={styles.description}
             dangerouslySetInnerHTML={{ __html: data?.desc }}
           />
+          <div className={styles.comment}>
+            <Comments articleSlug={slug} />
+          </div>
         </div>
         <Menu />
       </div>
     </div>
+    </Layout>
   );
 };
 

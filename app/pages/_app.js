@@ -5,7 +5,6 @@ import '@/styles/globals.css'
 import { ContextProvider } from '../components/UserContext'
 import { ThemeContextProvider } from '../components/Theme/ThemeContext'
 import ThemeProvider from '../components/Theme/ThemeProvider'
-import { createPagesServerClient } from '@supabase/auth-helpers-nextjs'
 
 export default function App({ Component, pageProps }) {
   // Create a new supabase browser client on every first render.
@@ -18,7 +17,11 @@ export default function App({ Component, pageProps }) {
       <ContextProvider>
         <ThemeContextProvider>
           <ThemeProvider>
-            <Component {...pageProps} />
+            <div className="min-h-screen bg-[color:var(--bg)] text-[color:var(--textColor)]">
+              <div className="max-w-screen-2xl mx-auto px-20">
+                <Component {...pageProps} />
+              </div>
+            </div>
           </ThemeProvider>
         </ThemeContextProvider>
       </ContextProvider>

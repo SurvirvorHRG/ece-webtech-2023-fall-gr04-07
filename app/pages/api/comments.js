@@ -1,17 +1,16 @@
 import { createPagesServerClient } from '@supabase/auth-helpers-nextjs'
 
-const POST_PER_PAGE = 2
+
 export default async function handler(req, res) {
   const supabase = createPagesServerClient({ req, res })
+  //GET REQUEST
   if (req.method === 'GET') {
-    const skip = POST_PER_PAGE * ((req.query.page || 1) - 1)
-    const { data, count } = await supabase
-      .from('article')
-      .select('*', { count: 'exact' })
-      .order('created_at', { ascending: false })
-      .range(skip, skip + 1)
-    res.status(200).json({ data, count })
-  } else if (req.method === 'POST') {
+    const { data } = await supabase.
+      from('comment').
+      select('*,user(name,email,image)')
+      .eq('articleSlug', req.query.articleSlug)
+    res.status(200).json(data)
+  } else if (req.method === 'POST') {//POST REQUEST
     const {
       data: { session },
     } = await supabase.auth.getSession()

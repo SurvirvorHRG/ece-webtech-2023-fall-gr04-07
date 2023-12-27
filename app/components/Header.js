@@ -5,12 +5,16 @@ import { useContext } from 'react'
 import UserContext from './UserContext'
 import ThemeToggle from "./Theme/ThemeToggle.js"
 
+const styles = {
+  links: "flex items-center gap-5 flex-2 text-1xl"
+}
+
 export default function Header() {
   const { user, login, logout } = useContext(UserContext)
-  const links = "flex items-end gap-7 flex-1 text-xl"
+  const links = ""
   return (
     <header>
-      <div className="border-2 flex items-center justify-between h-[100px]"> 
+      <div className="flex items-center justify-between h-[100px]"> 
         <div className="flex gap-2.5 flex-1">
           <Image src="/facebook.png" alt="facebook" width={24} height={24} />
           <Image src="/instagram.png" alt="instagram" width={24} height={24} />
@@ -18,15 +22,15 @@ export default function Header() {
           <Image src="/youtube.png" alt="youtube" width={24} height={24} />
         </div>
         <div className="flex-1 text-center text-4xl font-[bold]"><Link href = "/">WebTechApp</Link></div>  
-        <div className={links}>
+        <div className={styles.links}>
           <ThemeToggle />
           <Link href="/articles">Articles</Link>
           <Link href="/about" >About</Link>
           <Link href="/contacts">Contacts</Link> 
             {user && (
-              <div className= "flex gap-2.5">
+              <div className={styles.links}>
               <Link href="/profile"> 
-                {user.username}
+                {user.user_metadata.user_name}
                 <OutlineUserCircleIcon className="h-6 w-6" /> 
               </Link>
               <Link href="/writeArticle">
