@@ -89,7 +89,7 @@ const Comments = ({ article_slug }) => {
                   <div className={styles.userInfo}>
                     <span className={styles.username}>{item.user.name}</span>
                     <span className={styles.date}>{item.user.email}</span>
-                    <span className={styles.date}>{item.created_at}</span>
+                    <span className={styles.date}>{item.created_at.substring(0, 16).replace('T',' ')}</span>
                   </div>
                 </div>
                 <p className={styles.desc}>{item.desc}</p>

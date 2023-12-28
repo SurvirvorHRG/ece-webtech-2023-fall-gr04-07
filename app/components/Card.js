@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const styles = {
   container:"mb-[50px] flex items-center gap-[50px]",
-  imageContainer:"flex-[1] h-[350px] relative hidden lg:block",
+  imageContainer:"flex-[1] h-[350px] relative table lg:block",
   image:"object-cover",
   textContainer:"flex-[1] flex flex-col gap-[30px]",
   date:"text-[gray]",
@@ -23,7 +23,7 @@ const Card = ({ key, item }) => {
       <div className={styles.textContainer}>
         <div className={styles.detail}>
           <span className={styles.date}>
-            {item.created_at.substring(0, 10)} -{" "}
+            {item.created_at.substring(0, 16).replace('T',' ')} -{" "}
           </span>
           <span className={styles.category}>{item.cat_slug}</span>
         </div>

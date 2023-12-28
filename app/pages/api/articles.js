@@ -5,8 +5,7 @@ export default async function handler(req, res) {
   const supabase = createPagesServerClient({ req, res })
   if (req.method === 'GET') {
     const skip = POST_PER_PAGE * ((req.query.page || 1) - 1)
-    if(req.query.search && req.query.search != "")
-    {
+    if(req.query.search && req.query.search != ""){
       const searchString = req.query.search
       .trim()
       .split(/[\s,\t,\n]+/) // split and remove more than 1 space

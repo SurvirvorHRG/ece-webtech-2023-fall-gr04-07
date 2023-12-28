@@ -1,11 +1,12 @@
 "use client"
 import Image from "next/image"
-import { useEffect, useState, useMemo } from "react"
+import { useEffect, useRef, useState, useMemo } from "react"
 import "react-quill/dist/quill.bubble.css"
 import dynamic from 'next/dynamic'
-import Layout from '../components/Layout.js'
-import { useUser } from '@supabase/auth-helpers-react'
+import Layout from "@/components/Layout"
 import { useRouter } from 'next/router'
+import { server } from "@/config/config"
+import { createPagesServerClient } from '@supabase/auth-helpers-nextjs'
 
 import {
     getStorage,
@@ -25,18 +26,50 @@ const styles = {
     input: "p-[50px] text-[64px] border-[none] outline-[none] bg-transparent",
     input_placeholder: "text-[#b3b3b1]",
     textArea: " w-full",
-    publish: "absolute top-0 right-0 px-[20px] py-[10px] border-[none] bg-[#1a8917] text-[white] cursor-pointer rounded-[20px]",
+    edit: "absolute top-0 right-0 px-[20px] py-[10px] border-[none] bg-[#1a8917] text-[white] cursor-pointer rounded-[20px]",
+    remove: "absolute top-0 right-[10] px-[20px] py-[10px] border-[none] bg-red-700 text-[white] cursor-pointer rounded-[20px]",
     loading: "",
     imageContainer: "grid lg:block flex-[1] h-[350px] absolute right-20 top-[x]",
 }
 
+export const getServerSideProps = async (ctx) => {
+    // Create authenticated Supabase Client
+    const supabase = createPagesServerClient(ctx)
+    // Check if we have a session
+    const {
+        data: { session },
+    } = await supabase.auth.getSession()
 
-export default function WriteArticle() {
+
+    const { data } = await supabase
+        .from('article')
+        .select('user_email')
+        .eq('slug', ctx.params.slug)
+        .single()
+
+    if (!session || data.user_email != session.user.email)
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false,
+            },
+        }
+
+    return {
+        props: {
+            article_slug: ctx.params.slug,
+            user: session
+        }
+    }
+}
+
+
+export default function EditArticle(props) {
 
     const ReactQuill = useMemo(() => dynamic(() => import('react-quill'), { ssr: false }), []);
-    //const { status } = useSession();
     const router = useRouter();
-    const user = useUser()
+    //const user = props.user
+    const initialRender = useRef(true)
 
     const [open, setOpen] = useState(false);
     const [file, setFile] = useState(null);
@@ -46,6 +79,29 @@ export default function WriteArticle() {
     const [catSlug, setCatSlug] = useState("");
 
     useEffect(() => {
+
+        if (initialRender.current) {
+            initialRender.current = true
+            const fetchData = async () => {
+                const response = await fetch(`${server}/api/articles/${props.article_slug}`)
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`)
+                }
+                const result = await response.json()
+
+                setTitle(result.title)
+                setMedia(result.image)
+                setCatSlug(result.cat_slug)
+                setValue(result.desc)
+            }
+            fetchData().catch((e) => {
+                // handle the error as needed
+                console.error('An error occurred while fetching the data: ', e)
+            })
+            return
+        }
+
+
         const storage = getStorage(app);
         const upload = () => {
             const name = new Date().getTime() + file.name;
@@ -80,27 +136,16 @@ export default function WriteArticle() {
         file && upload();
     }, [file]);
 
-    if (user === "loading") {
-        return <div className={styles.loading}>Loading...</div>;
-    }
-
-    if (!user) {
-        router.push("/");
-    }
-
     const slugify = (str) =>
         str
-            .toString()
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
             .toLowerCase()
             .trim()
-            .replace(/\s+/g, '-')
-            .replace(/[^\w-]+/g, '')
-            .replace(/--+/g, '-')
+            .replace(/[^\w\s-]/g, "")
+            .replace(/[\s_-]+/g, "-")
+            .replace(/^-+|-+$/g, "");
 
-    const handleSubmit = async () => {
-        const res = await fetch("/api/articles", {
+    const handleEdit = async () => {
+        const res = await fetch(`/api/articles/edit/${props.article_slug}`, {
             method: "POST",
             body: JSON.stringify({
                 title,
@@ -117,6 +162,24 @@ export default function WriteArticle() {
         }
     };
 
+    const handleRemove = async () => {
+        const res = await fetch(`/api/articles/edit/${props.article_slug}?delete=true`, {
+            method: "POST",
+            body: JSON.stringify({
+                title,
+                desc: value,
+                image: media,
+                slug: slugify(title),
+                cat_slug: catSlug || "style", //If not selected, choose the general category
+            }),
+        });
+
+        if (res.status === 200) {
+            const data = await res.json();
+            router.push(`/`);
+        }
+    };
+
     return (
         <Layout
             title="Write"
@@ -125,11 +188,12 @@ export default function WriteArticle() {
             <div className={styles.container}>
                 <input
                     type="text"
-                    placeholder="Title"
+                    value={title}
                     className={styles.input}
                     onChange={(e) => setTitle(e.target.value)}
                 />
                 <select className={styles.select} onChange={(e) => setCatSlug(e.target.value)}>
+                    <option value="" selected disabled hidden>{catSlug}</option>
                     <option value="style">style</option>
                     <option value="fashion">fashion</option>
                     <option value="food">food</option>
@@ -175,8 +239,11 @@ export default function WriteArticle() {
                         placeholder="Tell your story..."
                     />
                 </div>
-                <button className={styles.publish} onClick={handleSubmit}>
-                    Publish
+                <button className={styles.edit} onClick={handleEdit}>
+                    Edit
+                </button>
+                <button className={styles.remove} onClick={handleRemove}>
+                    Remove
                 </button>
             </div>
         </Layout>
