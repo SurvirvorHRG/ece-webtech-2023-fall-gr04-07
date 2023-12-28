@@ -40,7 +40,7 @@ export const getServerSideProps = async (ctx) => {
     props: {
       data: article,
       articleSlug: ctx.params.slug,
-      user: session.user
+      session: session
     }
   }
 }
@@ -50,7 +50,7 @@ const SinglePage = (props) => {
   const data = props.data;
   const slug = props.articleSlug
   const router = useRouter();
-  const user = props.user
+  const session = props.session
 
   return (
     <Layout
@@ -60,7 +60,7 @@ const SinglePage = (props) => {
       <div className={styles.container}>
         <div className={styles.infoContainer}>
           <div className={styles.textContainer}>
-            {(user && user.email === data.user_email) ? (
+            {(session && session.user.email === data.user_email) ? (
               <button className={styles.edit} onClick={() => { router.push(`/articles/edit/${data.slug}`) }}>
                 Edit
               </button>
