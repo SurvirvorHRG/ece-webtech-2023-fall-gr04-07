@@ -1,9 +1,16 @@
 import React from "react";
-import styles from "./menu.module.css";
+//import styles from "./menu.module.css";
 import Link from "next/link";
 import Image from "next/image";
-import MenuPosts from "../menuPosts/MenuPosts";
-import MenuCategories from "../menuCategories/MenuCategories";
+import MenuPosts from "./MenuPosts";
+import MenuCategories from "./MenuCategories";
+
+
+const styles = {
+  container: "flex-[2] mt-[60px] hidden lg:block",
+  subtitle: "text-[gray] text-[16px] font-normal",
+  title: "text-[28px]",
+}
 
 const Menu = () => {
   return (

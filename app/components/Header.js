@@ -1,54 +1,35 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import OutlineUserCircleIcon from '@heroicons/react/24/outline/UserCircleIcon'
-import { useContext } from 'react'
-import UserContext from './UserContext'
 import ThemeToggle from "./Theme/ThemeToggle.js"
+import AuthLinks from './AuthLink'
 
 const styles = {
-  links: "flex items-center gap-5 flex-2 text-1xl"
+  container:"flex items-center justify-between h-[100px]",
+  social:"gap-[10px] flex-[1] hidden lg:flex",
+  logo:"flex-[1] text-center text-left lg:text-center text-[24px] md:text-[32px] xl:text-[36px] font-bold",
+  links: "flex items-center gap-[15px] text-[18px] xl:gap-[20px] flex-[1] xl:text-[20px] justify-end sm:justify-start",
+  link: "hidden sm:flex "
 }
 
 export default function Header() {
-  const { user, login, logout } = useContext(UserContext)
-  const links = ""
   return (
-    <header>
-      <div className="flex items-center justify-between h-[100px]"> 
-        <div className="flex gap-2.5 flex-1">
-          <Image src="/facebook.png" alt="facebook" width={24} height={24} />
-          <Image src="/instagram.png" alt="instagram" width={24} height={24} />
-          <Image src="/tiktok.png" alt="tiktok" width={24} height={24} />
-          <Image src="/youtube.png" alt="youtube" width={24} height={24} />
-        </div>
-        <div className="flex-1 text-center text-4xl font-[bold]"><Link href = "/">WebTechApp</Link></div>  
-        <div className={styles.links}>
-          <ThemeToggle />
-          <Link href="/articles">Articles</Link>
-          <Link href="/about" >About</Link>
-          <Link href="/contacts">Contacts</Link> 
-            {user && (
-              <div className={styles.links}>
-              <Link href="/profile"> 
-                {user.user_metadata.user_name}
-                <OutlineUserCircleIcon className="h-6 w-6" /> 
-              </Link>
-              <Link href="/writeArticle">
-                Write
-              </Link>
-              </div>
-            )}
-            {user ? (
-              <button onClick={() => logout()} >
-                Sign out
-              </button>
-            ) : (
-              <button onClick={() => login()} >
-                Sign in
-              </button>
-            )}
-        </div>
+    <div className={styles.container}>
+      <div className={styles.social}>
+        <Image src="/facebook.png" alt="facebook" width={24} height={24} />
+        <Image src="/instagram.png" alt="instagram" width={24} height={24} />
+        <Image src="/tiktok.png" alt="tiktok" width={24} height={24} />
+        <Image src="/youtube.png" alt="youtube" width={24} height={24} />
       </div>
-    </header>
+      <div className={styles.logo}>WebTechApp</div>
+      <div className={styles.links}>
+        <ThemeToggle />
+        <Link href="/" className={styles.link}>Homepage</Link>
+        <Link href="/articles" className={styles.link}>Articles</Link>
+        <Link href="/contacts" className={styles.link}>Contact</Link>
+        <Link href="/about" className={styles.link}>About</Link>
+        <AuthLinks />
+      </div>
+    </div>
   );
-}
+};

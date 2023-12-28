@@ -1,6 +1,17 @@
 import Link from "next/link";
 import React from "react";
-import styles from "./menuCategories.module.css";
+//import styles from "./menuCategories.module.css";
+
+const styles ={
+  categoryList:"mt-[35px] mb-[60px] flex flex-wrap gap-[20px]",
+  categoryItem:"px-[25px] py-[10px] rounded-[10px] text-[14px]",
+  style:"bg-[#57c4ff31]",
+  fashion:"bg-[#da85c731]",
+  food:"bg-[#7fb88133]",
+  travel:"bg-[#ff795736]",
+  culture:"bg-[#ffb04f45]",
+  coding:"bg-[#5e4fff31]"
+}
 
 const MenuCategories = () => {
   return (

@@ -1,12 +1,29 @@
 import Layout from '../../components/Layout.js'
-import Menu from "@/components/Menu/Menu";
-import styles from "./singlePage.module.css";
+import Menu from "@/components/Menu";
 import Image from "next/image";
-import Comments from "../../components/comments/Comments.js";
+import Comments from "../../components/Comments.js";
+import {server} from '../../config/config.js'
+
+const styles = {
+  infoContainer:"flex items-center gap-[50px]",
+  textContainer: "flex-[1]",
+  title: "text-[36px] sm:text-[48px] xl:text-[54px] 2xl:text-[64px] mb-[50px]",
+  user:"flex items-center gap-[20px]",
+  userImageContainer:"w-[50px] h-[50px] relative",
+  avatar: "rounded-[50%] object-cover",
+  userTextContainer:"flex flex-col gap-[5px]",
+  username:"text-[20px] font-medium",
+  imageContainer:"hidden lg:block flex-[1] h-[350px] relative",
+  image:"object-cover",
+  content:"flex gap-[50px]",
+  post:"flex-[5] mt-[60px]",
+  description:"text-[18px] sm:text-[20px] font-light mb-[20px]",
+
+}
 
 export const getServerSideProps = async (ctx) => {
 
-  const response = await fetch(`https://ece-webtech-2023-fall-gr04-07.vercel.app/api/articles/${ctx.params.slug}`)
+  const response = await fetch(`${server}/api/articles/${ctx.params.slug}`)
   const slug = await response.json()
 
   return {
@@ -57,7 +74,7 @@ const SinglePage = (props) => {
             dangerouslySetInnerHTML={{ __html: data?.desc }}
           />
           <div className={styles.comment}>
-            <Comments articleSlug={slug} />
+            <Comments article_slug={slug} />
           </div>
         </div>
         <Menu />

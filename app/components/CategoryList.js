@@ -1,9 +1,20 @@
 import React from "react"
 import Link from "next/link"
 import Image from "next/image"
-import styles from "./categoryList.module.css"
 
-
+const styles = {
+  container:"",
+  title:"mx-0 my-[50px]",
+  categories:"flex flex-wrap justify-between gap-[20px]",
+  category:"flex items-center gap-[10px] capitalize w-full sm:w-[45%] md:w-1/4 lg:w-[1/5] xl:w-[15%]  h-[80px] justify-center rounded-[10px]",
+  style:"bg-[#57c4ff31]",
+  fashion:"bg-[#da85c731]",
+  food:"bg-[#7fb88133]",
+  travel:"bg-[#ff795736]",
+  culture:"bg-[#ffb04f45]",
+  coding:"bg-[#5e4fff31]",
+  image: "rounded-[50%]"
+}
 
 const CategoryList = (props) => {
   const data = props.categories

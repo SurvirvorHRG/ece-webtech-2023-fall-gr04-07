@@ -2,7 +2,6 @@
 import Image from "next/image"
 import { useEffect,useState, useMemo } from "react"
 import "react-quill/dist/quill.bubble.css"
-import styles from "./writePage.module.css"
 import dynamic from 'next/dynamic'
 import Layout from '../components/Layout.js'
 import { useUser} from '@supabase/auth-helpers-react'
@@ -15,6 +14,20 @@ import {
     getDownloadURL,
 } from "firebase/storage";
 import { app } from "@/utils/firebase";
+
+const styles = {
+    container: "relative flex flex-col",
+    select: "bg-[silver] w-max ml-[50px] mb-[50px] px-5 py-2.5",
+    editor:"flex gap-5 h-[700px] relative",
+    button:"w-9 h-9 bg-transparent border border-[color:var(--textColor)] flex items-center justify-center cursor-pointer rounded-[50%] border-solid border-[#1a8917]",
+    addButton: "w-9 h-9 bg-transparent border border-[color:var(--textColor)] flex items-center justify-center cursor-pointer rounded-[50%] border-solid border-[#1a8917]",
+    add: "flex gap-5 bg-[color:var(--bg)] absolute z-[999] w-full left-[50px]",
+    input:"p-[50px] text-[64px] border-[none] outline-[none] bg-transparent",
+    input_placeholder:"text-[#b3b3b1]",
+    textArea:" w-full",
+    publish:"absolute top-0 right-0 px-[20px] py-[10px] border-[none] bg-[#1a8917] text-[white] cursor-pointer rounded-[20px]",
+    loading:""
+}
 
 
 export default function WriteArticle() {

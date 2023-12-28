@@ -1,7 +1,18 @@
 import React from "react";
-import styles from "./footer.module.css";
 import Image from "next/image";
 import Link from "next/link";
+
+const styles = {
+  container: "mt-[50px] px-0 py-[20px] flex items-center justify-between gap-[50px] md:gap-0 flex-col md:flex-row",
+  info: "flex-[1] flex flex-col gap-[14px]",
+  logo: "flex items-center gap-[10px]",
+  logoText: "text-[24px]",
+  desc:"font-light",
+  icons:"mt-[10px] flex gap-[10px]",
+  links:"flex-[1] flex justify-end text-[14px] sm:text-[16px] gap-[50px] lg:gap-[100px] w-full md:w-auto justify-between md:justify-end",
+  list:"flex flex-col gap-[10px] font-light",
+  listTitle:"font-bold"
+}
 
 const Footer = () => {
   return (

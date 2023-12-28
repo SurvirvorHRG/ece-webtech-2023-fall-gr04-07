@@ -1,15 +1,31 @@
 "use client";
 
 import Link from "next/link";
-import styles from "./comments.module.css";
 import Image from "next/image";
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import {server} from "../config/config"
+
+const styles = {
+  container:"mt-[50px]",
+  title:"mb-[30px]",
+  write:"flex items-center justify-between gap-[30px]",
+  input:"bg-[lightslategray] p-[20px] w-full",
+  button:"px-[20px] py-[16px] bg-[teal] text-[white] font-bold border-[none] rounded-[5px] cursor-pointer",
+  comments:"mt-[50px]",
+  comment:"mb-[50px]",
+  user:"flex items-center gap-[20px] mb-[20px]",
+  image:"rounded-[50%] object-cover",
+  userInfo:"flex flex-col gap-[5px]",
+  username:"font-medium",
+  date:"text-[14px]",
+  desc:"text-[18px] font-light"
+}
 
 
 
-const Comments = ({ articleSlug }) => {
+const Comments = ({ article_slug }) => {
   const [data, setData] = useState(null)
   const [isLoading, setLoading] = useState(true)
   const supabase = useSupabaseClient()
@@ -18,7 +34,7 @@ const Comments = ({ articleSlug }) => {
   const router = useRouter()
   useEffect(() => {
     (async () => {
-      const response = await fetch(`https://ece-webtech-2023-fall-gr04-07.vercel.app/api/comments?articleSlug=${articleSlug}`)
+      const response = await fetch(`${server}/api/comments?articleSlug=${article_slug}`)
       const comments = await response.json()
       setData(comments)
       setLoading(false)
@@ -33,7 +49,7 @@ const Comments = ({ articleSlug }) => {
   const handleSubmit = async () => {
     await fetch("/api/comments", {
       method: "POST",
-      body: JSON.stringify({ desc, articleSlug }),
+      body: JSON.stringify({ desc, article_slug }),
     });
     router.reload()
   };

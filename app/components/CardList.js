@@ -1,8 +1,11 @@
 import React from "react";
-import styles from "./cardList.module.css";
-import Pagination from "../pagination/Pagination";
-import Card from "../card/Card";
+import Pagination from "./Pagination";
+import Card from "./Card";
 
+const styles = {
+  container:"flex-[5]",
+  title:"mx-0 my-[50px]"
+}
 
 const CardList = (props) => {
 

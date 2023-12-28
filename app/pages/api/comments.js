@@ -8,7 +8,7 @@ export default async function handler(req, res) {
     const { data } = await supabase.
       from('comment').
       select('*,user(name,email,image)')
-      .eq('articleSlug', req.query.articleSlug)
+      .eq('article_slug', req.query.articleSlug)
       .order('created_at', { ascending: false })
     res.status(200).json(data)
   } else if (req.method === 'POST') {//POST REQUEST

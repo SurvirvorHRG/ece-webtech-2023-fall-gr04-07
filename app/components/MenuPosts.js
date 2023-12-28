@@ -1,7 +1,24 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import styles from "./menuPosts.module.css"
+
+const styles = {
+  items:"mt-[35px] mb-[60px] flex flex-col gap-[35px]",
+  item:"flex items-center gap-[20px]",
+  imageContainer:"flex-[1] [aspect-ratio:1/1] relative",
+  image:"rounded-[50%] border-[3px] border-[solid] border-[lightgray] object-cover",
+  textContainer:"flex-[4] flex flex-col gap-[5px]",
+  category:"px-[8px] py-[3px] rounded-[10px] text-[12px] text-[white] w-max",
+  travel: "bg-[#ff7857]",
+  culture: "bg-[#ffb14f]",
+  food:"bg-[#7fb881]",
+  fashion:"bg-[#ff7887]",
+  coding:"bg-[#775aec]",
+  style:"bg-[#789cff]",
+  postTitle:"text-[18px] font-medium",
+  detail:"text-[12px]",
+  date:"text-[gray]"
+}
 
 const MenuPosts = ({ withImage }) => {
   return (

@@ -1,8 +1,9 @@
 import Link from 'next/link'
 import Layout from '../components/Layout.js'
-import CardList from "../components/cardList/CardList.js";
-import Menu from "../components/Menu/Menu.js";
+import CardList from "../components/CardList.js";
+import Menu from "../components/Menu.js";
 import Search from '@/components/Search.js';
+import {server} from "../config/config.js"
 
 export default function Articles(props) {
   return (
@@ -25,7 +26,7 @@ export default function Articles(props) {
 export const getServerSideProps = async (ctx) => {
   const page = parseInt(ctx.query.page) || 1
   const search = ctx.query.search || ""
-  const response_articles = await fetch(`https://ece-webtech-2023-fall-gr04-07.vercel.app/api/articles?search=${search}&page=${page}`)
+  const response_articles = await fetch(`${server}/api/articles?search=${search}&page=${page}`)
   const articles = await response_articles.json()
 
   return {
