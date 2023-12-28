@@ -2,6 +2,10 @@ import { useState } from 'react'
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import Layout from '../components/Layout.js'
 
+const styles = {
+  input: "bg-[lightslategray]"
+}
+
 export default function Page() {
   const supabase = useSupabaseClient()
   const [message, setMessage] = useState(null)
@@ -34,25 +38,25 @@ export default function Page() {
         <div>
           <label>
             <span>First name</span>
-            <input type="text" name="firstname" />
+            <input className={styles.input} type="text" name="firstname" />
           </label>
         </div>
         <div>
           <label>
             <span>Last name</span>
-            <input type="text" name="lastname" />
+            <input className={styles.input} type="text" name="lastname" />
           </label>
         </div>
         <div>
           <label>
             <span>Email</span>
-            <input type="text" name="email" />
+            <input className={styles.input} type="text" name="email" />
           </label>
         </div>
         <div>
           <label>
             <span>Message</span>
-            <textarea name="message" />
+            <textarea className={styles.input} name="message" />
           </label>
         </div>
         <div>

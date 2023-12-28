@@ -10,7 +10,7 @@ const CardList = (props) => {
   const count = props.articles.count
   const page = props.page
 
-  const POST_PER_PAGE = 2;
+  const POST_PER_PAGE = 4;
 
   const hasPrev = POST_PER_PAGE * (page - 1) > 0;
   const hasNext = POST_PER_PAGE * (page - 1) + POST_PER_PAGE < count;
@@ -23,7 +23,7 @@ const CardList = (props) => {
           <Card item={item} key={item.id} />
         ))}
       </div>
-      <Pagination page={page} hasPrev={hasPrev} hasNext={hasNext} />
+      <Pagination page={page} search={props.search} hasPrev={hasPrev} hasNext={hasNext} />
     </div>
   );
 };

@@ -1,16 +1,33 @@
 import { createPagesServerClient } from '@supabase/auth-helpers-nextjs'
 
-const POST_PER_PAGE = 2
+const POST_PER_PAGE = 4
 export default async function handler(req, res) {
   const supabase = createPagesServerClient({ req, res })
   if (req.method === 'GET') {
     const skip = POST_PER_PAGE * ((req.query.page || 1) - 1)
-    const { data, count } = await supabase
+    if(req.query.search && req.query.search != "")
+    {
+      const searchString = req.query.search
+      .trim()
+      .split(/[\s,\t,\n]+/) // split and remove more than 1 space
+      .join(' | ')
+
+      const { data, count } = await supabase
+      .from('article')
+      .select('*', { count: 'exact' })
+      .textSearch('slug_title_desc_useremail',searchString)
+      .order('created_at', { ascending: false })
+      .range(skip, skip + POST_PER_PAGE-1)
+      return res.status(200).json({ data, count })
+
+    }else{
+      const { data, count } = await supabase
       .from('article')
       .select('*', { count: 'exact' })
       .order('created_at', { ascending: false })
-      .range(skip, skip + 1)
-    res.status(200).json({ data, count })
+      .range(skip, skip + POST_PER_PAGE-1)
+      return res.status(200).json({ data, count })
+    }    
   } else if (req.method === 'POST') {
     const {
       data: { session },
@@ -23,15 +40,15 @@ export default async function handler(req, res) {
       })
     
     let body = JSON.parse(req.body)
-    body["userEmail"] = session.user.email
+    body["user_email"] = session.user.email
     const { error } = await supabase
-      .from('comment')
+      .from('article')
       .insert(body)
 
     if (error) {
-      res.status(502).json({ message: "Error !" })
+      return res.status(502).json({ message: "Error !" })
     } else {
-      res.status(200).json()
+      return res.status(200).json({status: 200,slug: body.slug})
     }
   }
 }

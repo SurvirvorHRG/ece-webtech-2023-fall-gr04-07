@@ -39,6 +39,7 @@ const SinglePage = (props) => {
             )}
             <div className={styles.userTextContainer}>
               <span className={styles.username}>{data?.user.name}</span>
+              <span className={styles.username}>{data?.user.email}</span>
               <span className={styles.date}>{data.created_at}</span>
             </div>
           </div>

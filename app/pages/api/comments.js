@@ -9,6 +9,7 @@ export default async function handler(req, res) {
       from('comment').
       select('*,user(name,email,image)')
       .eq('articleSlug', req.query.articleSlug)
+      .order('created_at', { ascending: false })
     res.status(200).json(data)
   } else if (req.method === 'POST') {//POST REQUEST
     const {
@@ -22,7 +23,7 @@ export default async function handler(req, res) {
       })
     
     let body = JSON.parse(req.body)
-    body["userEmail"] = session.user.email
+    body["user_email"] = session.user.email
     const { error } = await supabase
       .from('comment')
       .insert(body)
