@@ -29,7 +29,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ## Deliverables 
 
 - Vercel URL: *https://ece-webtech-2023-fall-gr04-07.vercel.app/*
-- Supabase project URL: *https://vdtyfskrdjugcgkeuvqy.supabase.co*
+- Supabase project URL: *https://supabase.com/dashboard/project/vdtyfskrdjugcgkeuvqy*
 
 ## Authors
 
