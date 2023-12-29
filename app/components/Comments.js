@@ -76,7 +76,7 @@ const Comments = ({ article_slug }) => {
         {isLoading
           ? "loading"
           : data?.map((item) => (
-              <div className={styles.comment} key={item._id}>
+              <div className={styles.comment} key={item.id}>
                 <div className={styles.user}>
                   {item?.user?  (
                     <Image
@@ -90,7 +90,6 @@ const Comments = ({ article_slug }) => {
                     <Image src={getUserAvatarURL(item.user_email, 2048)} width={50} height={50} alt="" fclassName={styles.image} />
                   )}
                   <div className={styles.userInfo}>
-                    <span className={styles.username}>{item.user?.name}</span>
                     <span className={styles.date}>{item.user_email}</span>
                     <span className={styles.date}>{item.created_at.substring(0, 16).replace('T',' ')}</span>
                   </div>
