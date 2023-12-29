@@ -1,3 +1,10 @@
+/**
+ * SearchBar inspired from: https://github.com/HamedBahram/next-pagination
+ * 
+ */
+
+
+
 "use client"
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'

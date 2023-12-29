@@ -24,9 +24,9 @@ const CategoryList = (props) => {
       <div className={styles.categories}>
         {data?.map((item) => (
           <Link
-            href="/blog?cat=style"
+            href={`/articles?search=${item.slug}`}
             className={`${styles.category} ${styles[item.slug]}`}
-            key={item._id}
+            key={item.id}
           >
             {item.image && (
               <Image

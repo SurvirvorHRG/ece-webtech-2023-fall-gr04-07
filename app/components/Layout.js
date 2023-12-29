@@ -1,8 +1,8 @@
 import Head from 'next/head'
 import Header from '../components/Header.js'
 import Footer from '../components/Footer.js'
-import { ThemeContextProvider } from './Theme/ThemeContext.js'
-import ThemeProvider from './Theme/ThemeProvider.js'
+import { ThemeContextProvider } from './ThemeContext.js'
+import ThemeProvider from './ThemeProvider.js'
 import { Inter } from "next/font/google";
 
 

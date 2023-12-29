@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import OutlineUserCircleIcon from '@heroicons/react/24/outline/UserCircleIcon'
-import ThemeToggle from "./Theme/ThemeToggle.js"
+import ThemeToggle from "./ThemeToggle.js"
 import AuthLinks from './AuthLink'
 
 const styles = {

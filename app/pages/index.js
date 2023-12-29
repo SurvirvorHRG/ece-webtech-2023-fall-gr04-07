@@ -1,4 +1,9 @@
-import Link from 'next/link'
+/**
+ * Front-end & page structure inspired by this github repository:
+ * https://github.com/safak/next-blog/tree/completed
+ */
+
+
 import Layout from '../components/Layout.js'
 import Featured from '../components/Featured.js'
 import CategoryList from '../components/CategoryList.js'

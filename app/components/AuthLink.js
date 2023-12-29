@@ -1,28 +1,35 @@
 "use client";
 import Link from "next/link";
-import { useState,useContext } from "react";
+import { useState, useContext } from "react";
 import UserContext from './UserContext'
 
 const styles = {
-    link:"cursor-pointer hidden sm:block",
-    burger:"w-[20px] h-[16px] flex-col justify-between cursor-pointer flex sm:hidden ",
-    line:"w-full h-0.5 bg-red-400",
-    responsiveMenu:"absolute bg-red-400 h-[calc(100vh_-_100px)] w-full flex flex-col items-center justify-center gap-[50px] text-4xl z-[999] left-0 top-[100px]"
+  link: "cursor-pointer hidden sm:block",
+  burger: "w-[20px] h-[16px] flex-col justify-between cursor-pointer flex sm:hidden ",
+  line: "w-full h-0.5 bg-red-400",
+  responsiveMenu: "absolute bg-red-400 h-[calc(100vh_-_100px)] w-full flex flex-col items-center justify-center gap-[50px] text-4xl z-[999] left-0 top-[100px]",
 }
 
 const AuthLinks = () => {
   const [open, setOpen] = useState(false);
 
-  const { user,login,logout } = useContext(UserContext)
+  const { user, login, logout } = useContext(UserContext)
 
   return (
     <>
       {!user ? (
-          <span className={styles.link} onClick={login}>
+        <span className={styles.link} onClick={login}>
           Login
         </span>
       ) : (
         <>
+          <Link href="/profile" className={styles.profile}>
+          {( user.user_metadata?.user_name ?
+            user.user_metadata?.user_name
+            :
+            "Profile"
+          )}
+          </Link>
           <Link href="/writeArticle" className={styles.link}>
             Write
           </Link>
