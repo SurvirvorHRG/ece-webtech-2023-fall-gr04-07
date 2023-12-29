@@ -6,6 +6,7 @@ import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import {server} from "../config/config"
+import { getUserAvatarURL } from "@/utils/gravatar";
 
 const styles = {
   container:"mt-[50px]",
@@ -77,7 +78,7 @@ const Comments = ({ article_slug }) => {
           : data?.map((item) => (
               <div className={styles.comment} key={item._id}>
                 <div className={styles.user}>
-                  {item?.user?.image && (
+                  {item?.user?  (
                     <Image
                       src={item.user.image}
                       alt=""
@@ -85,10 +86,12 @@ const Comments = ({ article_slug }) => {
                       height={50}
                       className={styles.image}
                     />
+                  ):(
+                    <Image src={getUserAvatarURL(item.user_email, 2048)} width={50} height={50} alt="" fclassName={styles.image} />
                   )}
                   <div className={styles.userInfo}>
-                    <span className={styles.username}>{item.user.name}</span>
-                    <span className={styles.date}>{item.user.email}</span>
+                    <span className={styles.username}>{item.user?.name}</span>
+                    <span className={styles.date}>{item.user_email}</span>
                     <span className={styles.date}>{item.created_at.substring(0, 16).replace('T',' ')}</span>
                   </div>
                 </div>

@@ -5,6 +5,7 @@ import Comments from "../../components/Comments.js";
 import { server } from '../../config/config.js'
 import { createPagesServerClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/router'
+import { getUserAvatarURL } from '@/utils/gravatar.js';
 
 const styles = {
   infoContainer: "flex items-center gap-[50px]",
@@ -67,14 +68,19 @@ const SinglePage = (props) => {
             ) : ("")}
             <h1 className={styles.title}>{data?.title}</h1>
             <div className={styles.user}>
-              {data?.user?.image && (
+              {data.user ? (
                 <div className={styles.userImageContainer}>
                   <Image src={data.user.image} alt="" fill className={styles.avatar} />
                 </div>
+              ): (
+                <div className={styles.userImageContainer}>
+                  <Image src={getUserAvatarURL(data.user_email, 2048)} alt="" fill className={styles.avatar} />
+                </div>
+
               )}
               <div className={styles.userTextContainer}>
-                <span className={styles.username}>{data?.user.name}</span>
-                <span className={styles.username}>{data?.user.email}</span>
+                <span className={styles.username}>{data?.user?.name}</span>
+                <span className={styles.username}>{data?.user_email}</span>
                 <span className={styles.date}>{data.created_at.substring(0, 16).replace('T', ' ')}</span>
               </div>
             </div>

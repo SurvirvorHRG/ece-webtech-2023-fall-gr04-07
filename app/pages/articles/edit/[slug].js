@@ -1,20 +1,14 @@
 "use client"
 import Image from "next/image"
-import { useEffect, useRef, useState, useMemo } from "react"
+import { useEffect, useState, useMemo } from "react"
 import "react-quill/dist/quill.bubble.css"
 import dynamic from 'next/dynamic'
 import Layout from "@/components/Layout"
 import { useRouter } from 'next/router'
 import { server } from "@/config/config"
 import { createPagesServerClient } from '@supabase/auth-helpers-nextjs'
-
-import {
-    getStorage,
-    ref,
-    uploadBytesResumable,
-    getDownloadURL,
-} from "firebase/storage";
-import { app } from "@/utils/firebase";
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import { v4 as uuidv4 } from 'uuid'
 
 const styles = {
     container: "relative flex flex-col",
@@ -58,7 +52,7 @@ export const getServerSideProps = async (ctx) => {
     return {
         props: {
             article_slug: ctx.params.slug,
-            user: session
+            user: session.user
         }
     }
 }
@@ -66,83 +60,72 @@ export const getServerSideProps = async (ctx) => {
 
 export default function EditArticle(props) {
 
-    const ReactQuill = useMemo(() => dynamic(() => import('react-quill'), { ssr: false }), []);
-    const router = useRouter();
-    //const user = props.user
-    const initialRender = useRef(true)
+    const ReactQuill = useMemo(() => dynamic(() => import('react-quill'), { ssr: false }), [])
+    const router = useRouter()
+    const supabase = useSupabaseClient()
+    const user = props.user
 
-    const [open, setOpen] = useState(false);
-    const [file, setFile] = useState(null);
-    const [media, setMedia] = useState("");
-    const [value, setValue] = useState("");
-    const [title, setTitle] = useState("");
-    const [catSlug, setCatSlug] = useState("");
+    const [open, setOpen] = useState(false)
+    const [file, setFile] = useState(null)
+    const [media, setMedia] = useState("")
+    const [value, setValue] = useState("")
+    const [title, setTitle] = useState("")
+    const [catSlug, setCatSlug] = useState("")
 
     useEffect(() => {
-
-        if (initialRender.current) {
-            initialRender.current = true
-            const fetchData = async () => {
-                const response = await fetch(`${server}/api/articles/${props.article_slug}`)
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`)
-                }
-                const result = await response.json()
-
-                setTitle(result.title)
-                setMedia(result.image)
-                setCatSlug(result.cat_slug)
-                setValue(result.desc)
+        const fetchData = async () => {
+            const response = await fetch(`${server}/api/articles/${props.article_slug}`)
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`)
             }
-            fetchData().catch((e) => {
-                // handle the error as needed
-                console.error('An error occurred while fetching the data: ', e)
-            })
-            return
+            const result = await response.json()
+
+            setTitle(result.title)
+            setMedia(result.image)
+            setCatSlug(result.cat_slug)
+            setValue(result.desc)
+        }
+        fetchData().catch((e) => {
+            // handle the error as needed
+            console.error('An error occurred while fetching the data: ', e)
+        })
+
+        const upload = async () => {
+            const uuidv4_img = uuidv4()
+
+            const { error } = await supabase
+              .storage
+              .from('images')
+              .remove([media.replace("https://vdtyfskrdjugcgkeuvqy.supabase.co/storage/v1/object/public/images/","")])
+
+              const { data } = await supabase
+              .storage
+              .from('images')
+              .upload(user.id + "/" + uuidv4_img, file)
+
+
+            
+        
+            if (data){
+                setMedia(`https://vdtyfskrdjugcgkeuvqy.supabase.co/storage/v1/object/public/images/${user.id}/${uuidv4_img}`)
+            } else {
+              console.log(error);
+            }
         }
 
-
-        const storage = getStorage(app);
-        const upload = () => {
-            const name = new Date().getTime() + file.name;
-            const storageRef = ref(storage, name);
-
-            const uploadTask = uploadBytesResumable(storageRef, file);
-
-            uploadTask.on(
-                "state_changed",
-                (snapshot) => {
-                    const progress =
-                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    console.log("Upload is " + progress + "% done");
-                    switch (snapshot.state) {
-                        case "paused":
-                            console.log("Upload is paused");
-                            break;
-                        case "running":
-                            console.log("Upload is running");
-                            break;
-                    }
-                },
-                (error) => { },
-                () => {
-                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                        setMedia(downloadURL);
-                    });
-                }
-            );
-        };
-
-        file && upload();
-    }, [file]);
+        file && upload()
+    }, [file])
 
     const slugify = (str) =>
-        str
-            .toLowerCase()
-            .trim()
-            .replace(/[^\w\s-]/g, "")
-            .replace(/[\s_-]+/g, "-")
-            .replace(/^-+|-+$/g, "");
+    str
+        .toString()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, '-')
+        .replace(/[^\w-]+/g, '')
+        .replace(/--+/g, '-')
 
     const handleEdit = async () => {
         const res = await fetch(`/api/articles/edit/${props.article_slug}`, {
@@ -154,15 +137,21 @@ export default function EditArticle(props) {
                 slug: slugify(title),
                 cat_slug: catSlug || "style", //If not selected, choose the general category
             }),
-        });
+        })
 
         if (res.status === 200) {
             const data = await res.json();
-            router.push(`/articles/${data.slug}`);
+            router.push(`/articles/${data.slug}`)
         }
-    };
+    }
 
     const handleRemove = async () => {
+        const { data, error } = await supabase
+        .storage
+        .from('images')
+        .remove([media.replace("https://vdtyfskrdjugcgkeuvqy.supabase.co/storage/v1/object/public/images/","")])
+
+
         const res = await fetch(`/api/articles/edit/${props.article_slug}?delete=true`, {
             method: "POST",
             body: JSON.stringify({
@@ -172,13 +161,13 @@ export default function EditArticle(props) {
                 slug: slugify(title),
                 cat_slug: catSlug || "style", //If not selected, choose the general category
             }),
-        });
+        })
 
         if (res.status === 200) {
-            const data = await res.json();
-            router.push(`/`);
+            const data = await res.json()
+            router.push(`/`)
         }
-    };
+    }
 
     return (
         <Layout
@@ -247,5 +236,5 @@ export default function EditArticle(props) {
                 </button>
             </div>
         </Layout>
-    );
-};
+    )
+}

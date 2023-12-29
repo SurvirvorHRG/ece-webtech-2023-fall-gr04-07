@@ -6,14 +6,9 @@ import dynamic from 'next/dynamic'
 import Layout from '../components/Layout.js'
 import { useUser } from '@supabase/auth-helpers-react'
 import { useRouter } from 'next/router'
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import { v4 as uuidv4 } from 'uuid'
 
-import {
-    getStorage,
-    ref,
-    uploadBytesResumable,
-    getDownloadURL,
-} from "firebase/storage";
-import { app } from "@/utils/firebase";
 
 const styles = {
     container: "relative flex flex-col",
@@ -33,59 +28,44 @@ const styles = {
 
 export default function WriteArticle() {
 
-    const ReactQuill = useMemo(() => dynamic(() => import('react-quill'), { ssr: false }), []);
-    //const { status } = useSession();
-    const router = useRouter();
+    const ReactQuill = useMemo(() => dynamic(() => import('react-quill'), { ssr: false }), [])
+    const supabase = useSupabaseClient()
+    const router = useRouter()
     const user = useUser()
 
-    const [open, setOpen] = useState(false);
-    const [file, setFile] = useState(null);
-    const [media, setMedia] = useState("");
-    const [value, setValue] = useState("");
-    const [title, setTitle] = useState("");
-    const [catSlug, setCatSlug] = useState("");
+    const [open, setOpen] = useState(false)
+    const [file, setFile] = useState(null)
+    const [media, setMedia] = useState("")
+    const [value, setValue] = useState("")
+    const [title, setTitle] = useState("")
+    const [catSlug, setCatSlug] = useState("")
 
     useEffect(() => {
-        const storage = getStorage(app);
-        const upload = () => {
-            const name = new Date().getTime() + file.name;
-            const storageRef = ref(storage, name);
+        const upload = async () => {
+            const uuidv4_img = uuidv4()
 
-            const uploadTask = uploadBytesResumable(storageRef, file);
+            const { data, error } = await supabase
+              .storage
+              .from('images')
+              .upload(user.id + "/" + uuidv4_img, file)
+        
+            if (data) {
+              setMedia(`https://vdtyfskrdjugcgkeuvqy.supabase.co/storage/v1/object/public/images/${user.id}/${uuidv4_img}`)
+        
+            } else {
+              console.log(error);
+            }
+        }
 
-            uploadTask.on(
-                "state_changed",
-                (snapshot) => {
-                    const progress =
-                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    console.log("Upload is " + progress + "% done");
-                    switch (snapshot.state) {
-                        case "paused":
-                            console.log("Upload is paused");
-                            break;
-                        case "running":
-                            console.log("Upload is running");
-                            break;
-                    }
-                },
-                (error) => { },
-                () => {
-                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                        setMedia(downloadURL);
-                    });
-                }
-            );
-        };
-
-        file && upload();
-    }, [file]);
+        file && upload()
+    }, [file])
 
     if (user === "loading") {
-        return <div className={styles.loading}>Loading...</div>;
+        return <div className={styles.loading}>Loading...</div>
     }
 
     if (!user) {
-        router.push("/");
+        router.push("/")
     }
 
     const slugify = (str) =>
@@ -109,13 +89,13 @@ export default function WriteArticle() {
                 slug: slugify(title),
                 cat_slug: catSlug || "style", //If not selected, choose the general category
             }),
-        });
+        })
 
         if (res.status === 200) {
             const data = await res.json();
-            router.push(`/articles/${data.slug}`);
+            router.push(`/articles/${data.slug}`)
         }
-    };
+    }
 
     return (
         <Layout
@@ -180,5 +160,5 @@ export default function WriteArticle() {
                 </button>
             </div>
         </Layout>
-    );
-};
+    )
+}
